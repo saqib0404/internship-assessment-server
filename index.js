@@ -11,7 +11,6 @@ app.use(express.json());
 
 
 const uri = `mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASS}@cluster0.csyc5ob.mongodb.net/?retryWrites=true&w=majority`;
-// console.log(uri);
 const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true, serverApi: ServerApiVersion.v1 });
 async function run() {
     try {
@@ -19,6 +18,11 @@ async function run() {
 
         app.post('/userInfo', async (req, res) => {
             const result = await userInfo.insertOne(req.body);
+            res.send(result);
+        })
+
+        app.get('/userInfo', async (req, res) => {
+            const result = await userInfo.find({}).toArray();
             res.send(result);
         })
     }
